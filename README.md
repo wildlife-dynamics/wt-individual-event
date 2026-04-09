@@ -1,4 +1,4 @@
-# Workflow Custom Repository
+# Individual Event Workflow
 
 This repository contains custom tasks and workflows for individual-event. Follow the setup steps below to get started.
 
