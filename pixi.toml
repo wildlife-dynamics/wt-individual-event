@@ -1,42 +1,26 @@
-[project]
+[workspace]
+platforms = ['linux-64', 'osx-arm64', 'osx-64', 'win-64']
+
 name = "individual-event"
 channels = [
-  # Uncomment the following lines to use local channels for development.
-  # "file:///tmp/ecoscope-workflows/release/artifacts/",
-  "file:///tmp/ecoscope-workflows-custom/release/artifacts/",
   'https://repo.prefix.dev/ecoscope-workflows/',
   'https://repo.prefix.dev/ecoscope-workflows-custom/',
   'conda-forge',
 ]
-platforms = ['linux-64', 'osx-arm64', 'osx-64', 'win-64']
 
 [dependencies]
 curl = "*"
 rattler-build = "*"
 yq = "*"
 hatch = "*"
+pip = "*"
+hatch-vcs = "*"
 
 [feature.compile.dependencies]
-ecoscope-workflows-core = "0.22.16.*"
-ecoscope-workflows-ext-custom = "0.0.43.*"
-ecoscope-workflows-ext-ecoscope = "0.22.16.*"
-ecoscope-workflows-ext-apn = "0.0.14.*"
-
+ecoscope-workflows-core = "0.22.18.*"
+ecoscope-workflows-ext-custom = "0.0.44.*"
+ecoscope-workflows-ext-ecoscope = "0.22.18.*"
+ecoscope-workflows-ext-apn = "0.0.16.*"
 
 [environments]
-compile = { features = [
-  "compile",
-], solve-group = "compile", no-default-feature = true }
-
-[tasks]
-[tasks.build-release]
-cmd = './publish/build.sh'
-
-[tasks.pytest-310]
-cmd = './dev/pytest-task.sh 310'
-
-[tasks.pytest-311]
-cmd = './dev/pytest-task.sh 311'
-
-[tasks.pytest-312]
-cmd = './dev/pytest-task.sh 312'
+compile = { features = ["compile"], no-default-feature = true }

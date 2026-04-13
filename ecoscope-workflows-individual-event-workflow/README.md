@@ -10,16 +10,16 @@ artifacts_sha256_strict: 2b4e904ed72cdbbd94db9812b40df3dc8b1925b3f04207b5a070c9d
 installed_requirements:
 - channel: https://repo.prefix.dev/ecoscope-workflows/
   name: ecoscope-workflows-core
-  version: {version: ==0.22.16}
+  version: {version: ==0.22.18}
 - channel: https://repo.prefix.dev/ecoscope-workflows/
   name: ecoscope-workflows-ext-ecoscope
-  version: {version: ==0.22.16}
+  version: {version: ==0.22.18}
 - channel: https://repo.prefix.dev/ecoscope-workflows-custom/
   name: ecoscope-workflows-ext-custom
-  version: {version: ==0.0.43}
+  version: {version: ==0.0.44}
 - channel: https://repo.prefix.dev/ecoscope-workflows-custom/
   name: ecoscope-workflows-ext-apn
-  version: {version: ==0.0.14}
+  version: {version: ==0.0.16}
 params_sha256: 2ac44ae3f81739416ab248ff6e89a85464e377c65a61954dcc12f764f9c4d43b
 spec_sha256: d1308a10a0f14c79fba393b1605fa1951599a97315e8c5676550ed7b954e8113
 
