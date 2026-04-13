@@ -203,7 +203,7 @@ base_maps = (
 
 
 # %% [markdown]
-# ## Get Event Serial No.
+# ## Get Event
 
 # %%
 # parameters
@@ -349,7 +349,7 @@ events = (
         event_columns=[
             "id",
             "time",
-            "priority",
+            "priority_label",
             "event_type",
             "location",
             "event_category",
@@ -658,7 +658,7 @@ event_type_colormap = (
         df=get_event,
         input_column_name="event_type_display",
         output_column_name="event_type_color",
-        colormap="Dark2",
+        colormap="Set3",
         **event_type_colormap_params,
     )
     .call()
@@ -671,9 +671,7 @@ event_type_colormap = (
 # %%
 # parameters
 
-event_scatterplot_layer_params = dict(
-    data_url=...,
-)
+event_scatterplot_layer_params = dict()
 
 # %%
 # call the task
@@ -698,6 +696,7 @@ event_scatterplot_layer = (
             "get_fill_color": "event_type_color",
             "radius_min_pixels": 15,
         },
+        data_url=None,
         legend={
             "label_column": "event_type_display",
             "color_column": "event_type_color",
@@ -1006,7 +1005,7 @@ add_lat_lon_to_events = (
 
 
 # %% [markdown]
-# ## Get Report Template Path
+# ##
 
 # %%
 # parameters
@@ -1036,13 +1035,13 @@ get_template_path = (
 
 
 # %% [markdown]
-# ## Download Attachments
+# ##
 
 # %%
 # parameters
 
 download_attachments_params = dict(
-    attachments_subdir=...,
+    skip_download=...,
 )
 
 # %%
@@ -1064,8 +1063,8 @@ download_attachments = (
         client=er_client,
         event_gdf=add_lat_lon_to_events,
         output_dir=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
+        attachments_subdir="attachments",
         use_index_as_id=False,
-        skip_download=False,
         **download_attachments_params,
     )
     .call()
@@ -1102,7 +1101,7 @@ filtered_event = (
             "id",
             "time",
             "location",
-            "priority",
+            "priority_label",
             "event_type",
             "serial_number",
             "event_type_display",

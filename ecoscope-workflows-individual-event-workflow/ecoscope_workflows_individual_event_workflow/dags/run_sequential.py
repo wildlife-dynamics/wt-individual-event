@@ -226,7 +226,7 @@ def main(params: Params):
             event_columns=[
                 "id",
                 "time",
-                "priority",
+                "priority_label",
                 "event_type",
                 "location",
                 "event_category",
@@ -432,7 +432,7 @@ def main(params: Params):
             df=get_event,
             input_column_name="event_type_display",
             output_column_name="event_type_color",
-            colormap="Dark2",
+            colormap="Set3",
             **(params_dict.get("event_type_colormap") or {}),
         )
         .call()
@@ -458,6 +458,7 @@ def main(params: Params):
                 "get_fill_color": "event_type_color",
                 "radius_min_pixels": 15,
             },
+            data_url=None,
             legend={
                 "label_column": "event_type_display",
                 "color_column": "event_type_color",
@@ -689,8 +690,8 @@ def main(params: Params):
             client=er_client,
             event_gdf=add_lat_lon_to_events,
             output_dir=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
+            attachments_subdir="attachments",
             use_index_as_id=False,
-            skip_download=False,
             **(params_dict.get("download_attachments") or {}),
         )
         .call()
@@ -715,7 +716,7 @@ def main(params: Params):
                 "id",
                 "time",
                 "location",
-                "priority",
+                "priority_label",
                 "event_type",
                 "serial_number",
                 "event_type_display",

@@ -200,15 +200,6 @@ class ProcessedEventDetails(BaseModel):
     map_to_titles: Optional[bool] = Field(True, title="Map To Titles")
 
 
-class EventScatterplotLayer(BaseModel):
-    model_config = ConfigDict(
-        extra="forbid",
-    )
-    data_url: Optional[str] = Field(
-        None, description="URL to a GeoJSON file to visualize.", title="Data Url"
-    )
-
-
 class GetTemplatePath(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
@@ -220,10 +211,10 @@ class DownloadAttachments(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
     )
-    attachments_subdir: Optional[str] = Field(
-        "attachments",
-        description="Subdirectory inside the output directory to store attachments.",
-        title="Attachments Subdirectory",
+    skip_download: Optional[bool] = Field(
+        False,
+        description="If True, skip downloading attachments.",
+        title="Skip Download",
     )
 
 
@@ -267,17 +258,10 @@ class Params(BaseModel):
     )
     er_client: Optional[ErClient] = Field(None, title="Data Source")
     base_maps: Optional[BaseMaps] = Field(None, title="Define Base Maps")
-    serial_no: Optional[SerialNo] = Field(None, title="Get Event Serial No.")
+    serial_no: Optional[SerialNo] = Field(None, title="Get Event")
     time_range: Optional[TimeRange] = Field(
         None, description="Choose the period of time to analyze.", title="Time Range"
     )
     processed_event_details: Optional[ProcessedEventDetails] = Field(None, title="")
-    event_scatterplot_layer: Optional[EventScatterplotLayer] = Field(
-        None, title="Create Event Scatterplot Layer"
-    )
-    get_template_path: Optional[GetTemplatePath] = Field(
-        None, title="Get Report Template Path"
-    )
-    download_attachments: Optional[DownloadAttachments] = Field(
-        None, title="Download Attachments"
-    )
+    get_template_path: Optional[GetTemplatePath] = Field(None, title="")
+    download_attachments: Optional[DownloadAttachments] = Field(None, title="")

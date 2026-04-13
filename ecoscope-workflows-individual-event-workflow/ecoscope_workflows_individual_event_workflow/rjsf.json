@@ -248,15 +248,16 @@
       "additionalProperties": false,
       "properties": {
         "var": {
-          "title": "",
-          "type": "string"
+          "title": "Event Serial Number",
+          "type": "string",
+          "description": "Enter the serial number of the event to retrieve (e.g. 1234)."
         }
       },
       "required": [
         "var"
       ],
       "type": "object",
-      "title": "Get Event Serial No."
+      "title": "Get Event"
     },
     "time_range": {
       "additionalProperties": false,
@@ -296,68 +297,48 @@
       "properties": {
         "map_to_titles": {
           "default": true,
-          "title": "Map To Titles",
-          "type": "boolean"
+          "title": "Use Field Titles",
+          "type": "boolean",
+          "description": "Set to true if your template uses field titles; false if it uses raw field keys."
         }
       },
       "required": [],
       "type": "object",
-      "title": ""
-    },
-    "Event Scatterplot Map": {
-      "type": "object",
-      "description": "Create a scatterplot map of events.",
-      "ecoscope:task_group": true,
-      "properties": {
-        "event_scatterplot_layer": {
-          "additionalProperties": false,
-          "properties": {
-            "data_url": {
-              "default": null,
-              "title": "Data Url",
-              "type": "string",
-              "description": "URL to a GeoJSON file to visualize."
-            }
-          },
-          "type": "object",
-          "required": [],
-          "title": "Create Event Scatterplot Layer"
-        }
-      }
+      "title": "Process Event Details"
     },
     "Report Generation": {
       "type": "object",
-      "description": "Generate the event report including attachments.",
+      "description": "",
       "ecoscope:task_group": true,
       "properties": {
         "get_template_path": {
           "additionalProperties": false,
           "properties": {
             "var": {
-              "title": "",
-              "type": "string"
+              "title": "Template File Path",
+              "type": "string",
+              "description": "Path to the Word (.docx) report template file."
             }
           },
           "required": [
             "var"
           ],
           "type": "object",
-          "title": "Get Report Template Path"
+          "title": ""
         },
         "download_attachments": {
           "additionalProperties": false,
           "properties": {
-            "attachments_subdir": {
-              "default": "attachments",
-              "title": "Attachments Subdirectory",
-              "type": "string",
-              "description": "Subdirectory inside the output directory to store attachments.",
-              "ecoscope:advanced": true
+            "skip_download": {
+              "default": false,
+              "title": "Skip Attachments",
+              "type": "boolean",
+              "description": "Set to true to skip downloading attachments."
             }
           },
           "required": [],
           "type": "object",
-          "title": "Download Attachments"
+          "title": ""
         }
       }
     }
@@ -432,7 +413,6 @@
       "serial_no",
       "time_range",
       "processed_event_details",
-      "Event Scatterplot Map",
       "Report Generation"
     ]
   },

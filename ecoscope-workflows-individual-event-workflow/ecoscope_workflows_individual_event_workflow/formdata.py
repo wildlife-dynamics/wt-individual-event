@@ -190,28 +190,21 @@ class SerialNo(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
     )
-    var: str = Field(..., title="")
+    var: str = Field(
+        ...,
+        description="Enter the serial number of the event to retrieve (e.g. 1234).",
+        title="Event Serial Number",
+    )
 
 
 class ProcessedEventDetails(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
     )
-    map_to_titles: Optional[bool] = Field(True, title="Map To Titles")
-
-
-class EventScatterplotLayer(BaseModel):
-    model_config = ConfigDict(
-        extra="forbid",
-    )
-    data_url: Optional[str] = Field(
-        None, description="URL to a GeoJSON file to visualize.", title="Data Url"
-    )
-
-
-class EventScatterplotMap(BaseModel):
-    event_scatterplot_layer: Optional[EventScatterplotLayer] = Field(
-        None, title="Create Event Scatterplot Layer"
+    map_to_titles: Optional[bool] = Field(
+        True,
+        description="Set to true if your template uses field titles; false if it uses raw field keys.",
+        title="Use Field Titles",
     )
 
 
@@ -219,27 +212,27 @@ class GetTemplatePath(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
     )
-    var: str = Field(..., title="")
+    var: str = Field(
+        ...,
+        description="Path to the Word (.docx) report template file.",
+        title="Template File Path",
+    )
 
 
 class DownloadAttachments(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
     )
-    attachments_subdir: Optional[str] = Field(
-        "attachments",
-        description="Subdirectory inside the output directory to store attachments.",
-        title="Attachments Subdirectory",
+    skip_download: Optional[bool] = Field(
+        False,
+        description="Set to true to skip downloading attachments.",
+        title="Skip Attachments",
     )
 
 
 class ReportGeneration(BaseModel):
-    get_template_path: Optional[GetTemplatePath] = Field(
-        None, title="Get Report Template Path"
-    )
-    download_attachments: Optional[DownloadAttachments] = Field(
-        None, title="Download Attachments"
-    )
+    get_template_path: Optional[GetTemplatePath] = Field(None, title="")
+    download_attachments: Optional[DownloadAttachments] = Field(None, title="")
 
 
 class EarthRangerConnection(BaseModel):
@@ -282,18 +275,13 @@ class FormData(BaseModel):
     )
     er_client: Optional[ErClient] = Field(None, title="Data Source")
     base_maps: Optional[BaseMaps] = Field(None, title="Define Base Maps")
-    serial_no: Optional[SerialNo] = Field(None, title="Get Event Serial No.")
+    serial_no: Optional[SerialNo] = Field(None, title="Get Event")
     time_range: Optional[TimeRange] = Field(
         None, description="Choose the period of time to analyze.", title="Time Range"
     )
-    processed_event_details: Optional[ProcessedEventDetails] = Field(None, title="")
-    Event_Scatterplot_Map: Optional[EventScatterplotMap] = Field(
-        None,
-        alias="Event Scatterplot Map",
-        description="Create a scatterplot map of events.",
+    processed_event_details: Optional[ProcessedEventDetails] = Field(
+        None, title="Process Event Details"
     )
     Report_Generation: Optional[ReportGeneration] = Field(
-        None,
-        alias="Report Generation",
-        description="Generate the event report including attachments.",
+        None, alias="Report Generation", description=""
     )

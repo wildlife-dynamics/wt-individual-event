@@ -256,7 +256,7 @@
         "var"
       ],
       "type": "object",
-      "title": "Get Event Serial No."
+      "title": "Get Event"
     },
     "time_range": {
       "additionalProperties": false,
@@ -304,20 +304,6 @@
       "type": "object",
       "title": ""
     },
-    "event_scatterplot_layer": {
-      "additionalProperties": false,
-      "properties": {
-        "data_url": {
-          "default": null,
-          "title": "Data Url",
-          "type": "string",
-          "description": "URL to a GeoJSON file to visualize."
-        }
-      },
-      "type": "object",
-      "required": [],
-      "title": "Create Event Scatterplot Layer"
-    },
     "get_template_path": {
       "additionalProperties": false,
       "properties": {
@@ -330,22 +316,21 @@
         "var"
       ],
       "type": "object",
-      "title": "Get Report Template Path"
+      "title": ""
     },
     "download_attachments": {
       "additionalProperties": false,
       "properties": {
-        "attachments_subdir": {
-          "default": "attachments",
-          "title": "Attachments Subdirectory",
-          "type": "string",
-          "description": "Subdirectory inside the output directory to store attachments.",
-          "ecoscope:advanced": true
+        "skip_download": {
+          "default": false,
+          "title": "Skip Download",
+          "type": "boolean",
+          "description": "If True, skip downloading attachments."
         }
       },
       "required": [],
       "type": "object",
-      "title": "Download Attachments"
+      "title": ""
     }
   },
   "$defs": {
@@ -412,7 +397,6 @@
       "serial_no",
       "time_range",
       "processed_event_details",
-      "event_scatterplot_layer",
       "get_template_path",
       "download_attachments"
     ]

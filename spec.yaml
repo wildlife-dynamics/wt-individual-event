@@ -2,20 +2,36 @@ id: individual_event
 
 requirements:
   - name: ecoscope-workflows-core
-    version: "0.22.16.*"
+    version: "0.22.18.*"
     channel: https://repo.prefix.dev/ecoscope-workflows/
 
   - name: ecoscope-workflows-ext-ecoscope
-    version: "0.22.16.*"
+    version: "0.22.18.*"
     channel: https://repo.prefix.dev/ecoscope-workflows/
 
   - name: ecoscope-workflows-ext-custom
-    version: "0.0.43"
+    version: "0.0.44"
     channel: https://repo.prefix.dev/ecoscope-workflows-custom/
 
   - name: ecoscope-workflows-ext-apn
-    version: "0.0.14.*"
+    version: "0.0.16.*"
     channel: https://repo.prefix.dev/ecoscope-workflows-custom/
+
+rjsf-overrides:
+  properties:
+    processed_event_details.properties.map_to_titles.title: "Use Field Titles"
+    processed_event_details.properties.map_to_titles.description: >-
+      Set to true if your template uses field titles; false if it uses raw field keys.
+    serial_no.properties.var.title: "Event Serial Number"
+    serial_no.properties.var.description: >-
+      Enter the serial number of the event to retrieve (e.g. 1234).
+    processed_event_details.title: "Process Event Details"
+    "Report Generation.properties.get_template_path.properties.var.title": "Template File Path"
+    "Report Generation.properties.get_template_path.properties.var.description": >-
+      Path to the Word (.docx) report template file.
+    "Report Generation.properties.download_attachments.properties.skip_download.title": "Skip Attachments"
+    "Report Generation.properties.download_attachments.properties.skip_download.description": >-
+      Set to true to skip downloading attachments.
 
 task-instance-defaults:
   skipif:
@@ -41,7 +57,7 @@ workflow:
     id: base_maps
     task: set_base_maps_pydeck
 
-  - name: Get Event Serial No.
+  - name: Get Event 
     id: serial_no
     task: set_string_var
 
@@ -71,7 +87,7 @@ workflow:
       event_columns:
         - id
         - time
-        - priority
+        - priority_label
         - event_type
         - location
         - event_category
@@ -161,7 +177,7 @@ workflow:
           df: ${{ workflow.get_event.return }}
           input_column_name: event_type_display
           output_column_name: event_type_color
-          colormap: Dark2
+          colormap: Set3
 
       - name: Create Event Scatterplot Layer
         id: event_scatterplot_layer
@@ -173,6 +189,7 @@ workflow:
             opacity: 1.0
             get_fill_color: event_type_color
             radius_min_pixels: 15
+          data_url: null
           legend:
             label_column: event_type_display
             color_column: event_type_color
@@ -258,7 +275,7 @@ workflow:
 
   - title: Report Generation
     type: task-group
-    description: Generate the event report including attachments.
+    description: "" 
     tasks:
       - name: Add Lat/Lon to Events
         id: add_lat_lon_to_events
@@ -266,19 +283,18 @@ workflow:
         partial:
           event_gdf: ${{ workflow.get_event.return }}
 
-      - name: Get Report Template Path
-        id: get_template_path
+      - id: get_template_path
         task: set_string_var
 
-      - name: Download Attachments
-        id: download_attachments
+      - id: download_attachments
         task: download_event_attachments
         partial:
           client: ${{ workflow.er_client.return }}
           event_gdf: ${{ workflow.add_lat_lon_to_events.return }}
           output_dir: ${{ env.ECOSCOPE_WORKFLOWS_RESULTS }}
+          attachments_subdir: "attachments"
           use_index_as_id: false
-          skip_download: false
+          # skip_download: false
 
       - name: Filtered Event
         id: filtered_event
@@ -290,7 +306,7 @@ workflow:
             - id
             - time
             - location
-            - priority
+            - priority_label
             - event_type
             - serial_number
             - event_type_display
