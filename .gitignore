@@ -167,3 +167,6 @@ cython_debug/
 
 .claude
 **~$**
+# Makefile is a personal convenience wrapper; dev/recompile.sh is the canonical build entry point.
+Makefile
+Makefile.local

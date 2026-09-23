@@ -1,26 +1,18 @@
 [workspace]
-platforms = ['linux-64', 'osx-arm64', 'osx-64', 'win-64']
-
 name = "individual-event"
 channels = [
   'https://repo.prefix.dev/ecoscope-workflows/',
   'https://repo.prefix.dev/ecoscope-workflows-custom/',
   'conda-forge',
 ]
+platforms = ['linux-64', 'osx-arm64', 'osx-64', 'win-64']
 
 [dependencies]
-curl = "*"
-rattler-build = "*"
-yq = "*"
-hatch = "*"
-pip = "*"
-hatch-vcs = "*"
+wt-compiler = "==0.8.3"
+graphviz = "*"
 
-[feature.compile.dependencies]
-ecoscope-workflows-core = "0.22.18.*"
-ecoscope-workflows-ext-custom = "0.0.44.*"
-ecoscope-workflows-ext-ecoscope = "0.22.18.*"
-ecoscope-workflows-ext-apn = "0.0.16.*"
+[tasks.compile-individual-event]
+cmd = './dev/recompile.sh --install'
 
-[environments]
-compile = { features = ["compile"], no-default-feature = true }
+[tasks.recompile-individual-event]
+cmd = './dev/recompile.sh --update'
