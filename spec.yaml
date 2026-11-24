@@ -6,7 +6,7 @@ requirements:
     channel: https://repo.prefix.dev/ecoscope-workflows/
 
   - name: ecoscope-workflows-ext-custom
-    version: "0.1.1"
+    version: "0.1.6"
     channel: https://repo.prefix.dev/ecoscope-workflows-custom/
 
   - name: pydeck
@@ -14,22 +14,18 @@ requirements:
     channel: conda-forge
 
   - name: ecoscope-workflows-ext-apn
-    version: "0.0.30"
+    version: "0.0.33"
     channel: https://repo.prefix.dev/ecoscope-workflows-custom/
 
 rjsf-overrides:
   properties:
-    processed_event_details.properties.map_to_titles.title: "Use Field Titles"
-    processed_event_details.properties.map_to_titles.description: >-
-      Set to true when the Jinja template references field titles (human-readable labels);
-      set to false when it references raw field keys.
     serial_no.properties.var.title: "Event Serial Number"
     serial_no.properties.var.description: >-
       Enter the serial number of the event to retrieve (e.g. 1234).
-    processed_event_details.title: "Process Event Details"
     "Report Generation.properties.get_template_path.properties.var.title": "Template File Path"
     "Report Generation.properties.get_template_path.properties.var.description": >-
-      Path to the Word (.docx) report template file.
+      Path or URL to the Word (.docx) report template file.
+    "Report Generation.properties.get_template_path.properties.var.default": "https://raw.githubusercontent.com/wildlife-dynamics/wt-individual-event/main/resources/templates/acta_de_infraccion_template.docx"
     "Report Generation.properties.download_attachments.properties.skip_download.title": "Skip Attachments"
     "Report Generation.properties.download_attachments.properties.skip_download.description": >-
       Set to true to skip downloading attachments.
@@ -169,6 +165,7 @@ workflow:
     partial:
       df: ${{ workflow.get_event.return }}
       client: ${{ workflow.er_client.return }}
+      map_to_titles: false  # the Acta template uses field keys
       ordered: true
 
   - id: select_event_details
@@ -275,6 +272,7 @@ workflow:
         partial:
           layers:
             - ${{ workflow.event_scatterplot_layer.return }}
+          max_zoom: 13  # one point would zoom to 20, too close; 13 shows about 17 km around it
 
       - name: Draw Event Map
         id: event_map
@@ -422,8 +420,17 @@ workflow:
           user_details: ${{ workflow.user_details.return }}
           attachments: ${{ workflow.download_attachments.return }}
           include_attachment: true
+          timezone: ${{ workflow.get_timezone.return }}  # dates in the workflow timezone, not the device's
           template_path: ${{ workflow.norm_template_path.return }}
           output_dir: ${{ workflow.norm_output_dir.return }}
+
+  # the Word report, offered for download with the dashboard (as in APN-patrol_event)
+  - name: Report files
+    id: report_files
+    task: create_files_single_view
+    partial:
+      files:
+        - ${{ workflow.generate_docx.return }}
 
   - name: Create Dashboard
     id: dashboard
@@ -433,3 +440,4 @@ workflow:
       widgets:
         - ${{ workflow.event_map_widget.return }}
       time_range: ${{ workflow.time_range.return}}
+      files: ${{ workflow.report_files.return }}
