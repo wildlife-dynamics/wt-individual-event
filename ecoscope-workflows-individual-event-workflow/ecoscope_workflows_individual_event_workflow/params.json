@@ -461,20 +461,6 @@
       "required": [],
       "type": "object",
       "title": "Download Attachments"
-    },
-    "generate_docx": {
-      "additionalProperties": false,
-      "properties": {
-        "map_width_mm": {
-          "default": 150,
-          "description": "Width of the event map in the report, in mm.",
-          "title": "Map Width Mm",
-          "type": "integer"
-        }
-      },
-      "required": [],
-      "type": "object",
-      "title": "Generate Event Report"
     }
   },
   "$defs": {
@@ -841,8 +827,7 @@
       "local_spatial_file",
       "event_scatterplot_layer",
       "get_template_path",
-      "download_attachments",
-      "generate_docx"
+      "download_attachments"
     ]
   },
   "additionalProperties": false
