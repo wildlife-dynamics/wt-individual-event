@@ -420,6 +420,7 @@ workflow:
           attachments: ${{ workflow.download_attachments.return }}
           include_attachment: true
           timezone: ${{ workflow.get_timezone.return }}  # dates in the workflow timezone, not the device's
+          map_width_mm: 150
           template_path: ${{ workflow.norm_template_path.return }}
           output_dir: ${{ workflow.norm_output_dir.return }}
 

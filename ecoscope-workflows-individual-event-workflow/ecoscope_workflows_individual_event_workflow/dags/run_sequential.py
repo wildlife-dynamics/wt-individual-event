@@ -952,6 +952,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             attachments=download_attachments,
             include_attachment=True,
             timezone=get_timezone,
+            map_width_mm=150,
             template_path=norm_template_path,
             output_dir=norm_output_dir,
             **(params.get("generate_docx") or {}),
