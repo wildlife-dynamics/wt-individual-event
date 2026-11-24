@@ -25,8 +25,8 @@
       "properties": {
         "data_source": {
           "$ref": "#/$defs/EarthRangerConnection",
-          "title": "",
-          "description": "Select one of your configured data sources."
+          "description": "Select one of your configured data sources.",
+          "title": ""
         }
       },
       "required": [
@@ -53,8 +53,9 @@
               "min_zoom": 0
             }
           ],
+          "description": "Select tile layers to use as base layers in map outputs. The first layer in the list will be the bottommost layer displayed.",
+          "ecoscope:advanced": true,
           "items": {
-            "title": "Base Layer",
             "anyOf": [
               {
                 "description": "A tiled raster layer loaded on-demand from a URL template (e.g., base maps).",
@@ -72,8 +73,8 @@
                     "default": 1,
                     "description": "Set layer transparency from 1 (fully visible) to 0 (hidden).",
                     "ecoscope:advanced": true,
-                    "maximum": 1.0,
-                    "minimum": 0.0,
+                    "maximum": 1,
+                    "minimum": 0,
                     "title": "Layer Opacity",
                     "type": "number"
                   }
@@ -97,8 +98,8 @@
                     "default": 1,
                     "description": "Set layer transparency from 1 (fully visible) to 0 (hidden).",
                     "ecoscope:advanced": true,
-                    "maximum": 1.0,
-                    "minimum": 0.0,
+                    "maximum": 1,
+                    "minimum": 0,
                     "title": "Layer Opacity",
                     "type": "number"
                   }
@@ -122,8 +123,8 @@
                     "default": 1,
                     "description": "Set layer transparency from 1 (fully visible) to 0 (hidden).",
                     "ecoscope:advanced": true,
-                    "maximum": 1.0,
-                    "minimum": 0.0,
+                    "maximum": 1,
+                    "minimum": 0,
                     "title": "Layer Opacity",
                     "type": "number"
                   }
@@ -147,8 +148,8 @@
                     "default": 1,
                     "description": "Set layer transparency from 1 (fully visible) to 0 (hidden).",
                     "ecoscope:advanced": true,
-                    "maximum": 1.0,
-                    "minimum": 0.0,
+                    "maximum": 1,
+                    "minimum": 0,
                     "title": "Layer Opacity",
                     "type": "number"
                   }
@@ -172,8 +173,8 @@
                     "default": 1,
                     "description": "Set layer transparency from 1 (fully visible) to 0 (hidden).",
                     "ecoscope:advanced": true,
-                    "maximum": 1.0,
-                    "minimum": 0.0,
+                    "maximum": 1,
+                    "minimum": 0,
                     "title": "Layer Opacity",
                     "type": "number"
                   }
@@ -195,8 +196,8 @@
                     "default": 1,
                     "description": "Set layer transparency from 1 (fully visible) to 0 (hidden).",
                     "ecoscope:advanced": true,
-                    "maximum": 1.0,
-                    "minimum": 0.0,
+                    "maximum": 1,
+                    "minimum": 0,
                     "title": "Custom Layer Opacity",
                     "type": "number"
                   },
@@ -216,12 +217,11 @@
                 "title": "Custom Layer (Advanced)",
                 "type": "object"
               }
-            ]
+            ],
+            "title": "Base Layer"
           },
           "title": " ",
-          "type": "array",
-          "description": "Select tile layers to use as base layers in map outputs. The first layer in the list will be the bottommost layer displayed.",
-          "ecoscope:advanced": true
+          "type": "array"
         }
       },
       "type": "object",
@@ -247,23 +247,19 @@
       "additionalProperties": false,
       "properties": {
         "since": {
+          "description": "The start time",
           "format": "date-time",
           "title": "Since",
-          "type": "string",
-          "description": "The start time"
+          "type": "string"
         },
         "until": {
+          "description": "The end time",
           "format": "date-time",
           "title": "Until",
-          "type": "string",
-          "description": "The end time"
+          "type": "string"
         },
         "timezone": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/TimezoneInfo"
-            }
-          ],
+          "$ref": "#/$defs/TimezoneInfo",
           "default": null,
           "title": "Timezone"
         }
@@ -281,6 +277,8 @@
       "properties": {
         "event_states": {
           "default": null,
+          "description": "Choose to analyze events with a certain state. If left empty, events of all states will be analyzed",
+          "ecoscope:advanced": true,
           "items": {
             "type": "string",
             "oneOf": [
@@ -304,35 +302,19 @@
           },
           "title": "Event State",
           "type": "array",
-          "description": "Choose to analyze events with a certain state. If left empty, events of all states will be analyzed",
-          "uniqueItems": true,
-          "ecoscope:advanced": true
+          "uniqueItems": true
         },
         "force_point_geometry": {
           "default": true,
-          "title": "Force Point Geometry",
-          "type": "boolean",
           "description": "If True, polygon/multipolygon event geometries are reduced to their centroid. Set False to preserve native geometry types.",
-          "ecoscope:advanced": true
+          "ecoscope:advanced": true,
+          "title": "Force Point Geometry",
+          "type": "boolean"
         }
       },
       "required": [],
       "type": "object",
       "title": "All Events"
-    },
-    "processed_event_details": {
-      "additionalProperties": false,
-      "properties": {
-        "map_to_titles": {
-          "default": true,
-          "title": "Use Field Titles",
-          "type": "boolean",
-          "description": "Set to true when the Jinja template references field titles (human-readable labels); set to false when it references raw field keys."
-        }
-      },
-      "required": [],
-      "type": "object",
-      "title": "Process Event Details"
     },
     "Spatial Features": {
       "type": "object",
@@ -343,11 +325,7 @@
           "additionalProperties": false,
           "properties": {
             "source": {
-              "allOf": [
-                {
-                  "$ref": "#/$defs/EarthRangerSource"
-                }
-              ],
+              "$ref": "#/$defs/EarthRangerSource",
               "default": {
                 "query": null
               },
@@ -355,9 +333,8 @@
             },
             "group_by": {
               "default": "type_name",
-              "title": "Group By",
-              "type": "string",
               "description": "Column used to group features in the map legend e.g. 'Feature Type' shows one legend entry per feature type.",
+              "ecoscope:advanced": true,
               "oneOf": [
                 {
                   "const": "type_name",
@@ -368,14 +345,32 @@
                   "title": "Feature Name"
                 }
               ],
-              "ecoscope:advanced": true
+              "title": "Group By",
+              "type": "string"
             },
             "legend_title": {
               "default": "",
-              "title": "Legend Title",
-              "type": "string",
               "description": "Label shown in the map legend e.g. 'Park Boundary'.",
-              "ecoscope:advanced": true
+              "ecoscope:advanced": true,
+              "title": "Legend Title",
+              "type": "string"
+            },
+            "show_labels": {
+              "default": false,
+              "description": "If True, show each feature's name as a text label on the map.",
+              "ecoscope:advanced": true,
+              "title": "Show Labels",
+              "type": "boolean"
+            },
+            "label_style": {
+              "default": [],
+              "ecoscope:advanced": true,
+              "items": {
+                "$ref": "#/$defs/LabelStyle"
+              },
+              "maxItems": 1,
+              "title": "",
+              "type": "array"
             }
           },
           "required": [],
@@ -394,42 +389,42 @@
           "properties": {
             "file_path": {
               "default": "",
-              "title": "File Path",
-              "type": "string",
               "description": "Path to the geospatial file. Supported formats: GeoJSON (.geojson), GeoPackage (.gpkg), and GeoParquet (.parquet / .geoparquet).",
-              "ecoscope:advanced": true
+              "ecoscope:advanced": true,
+              "title": "File Path",
+              "type": "string"
             },
             "layer": {
               "default": "",
-              "title": "Layer",
-              "type": "string",
               "description": "Layer name within a GeoPackage file. Only required when the file contains multiple layers.",
-              "ecoscope:advanced": true
+              "ecoscope:advanced": true,
+              "title": "Layer",
+              "type": "string"
             },
             "group_by": {
               "default": "",
-              "title": "Group By",
-              "type": "string",
               "description": "Column used to group features in the map legend e.g. 'name', 'category'.",
-              "ecoscope:advanced": true
+              "ecoscope:advanced": true,
+              "title": "Group By",
+              "type": "string"
             },
             "legend_title": {
               "default": "",
-              "title": "Legend Title",
-              "type": "string",
               "description": "Label shown in the map legend e.g. 'Park Boundary'.",
-              "ecoscope:advanced": true
+              "ecoscope:advanced": true,
+              "title": "Legend Title",
+              "type": "string"
             },
             "style": {
               "default": null,
+              "description": "Optional: Customise how features are rendered on the map.",
+              "ecoscope:advanced": true,
               "items": {
                 "$ref": "#/$defs/LayerStyle"
               },
               "maxLength": 1,
               "title": "Style",
-              "type": "array",
-              "description": "Optional: Customise how features are rendered on the map.",
-              "ecoscope:advanced": true
+              "type": "array"
             }
           },
           "type": "object",
@@ -448,30 +443,17 @@
           "properties": {
             "tooltip_columns": {
               "default": null,
+              "description": "Restrict the on-hover tooltip to these column names. None (default) shows all properties.",
+              "ecoscope:advanced": true,
               "items": {
                 "type": "string"
               },
               "title": "Tooltip Columns",
-              "type": "array",
-              "description": "Restrict the on-hover tooltip to these column names. None (default) shows all properties.",
-              "ecoscope:advanced": true
+              "type": "array"
             }
           },
           "type": "object",
           "required": [],
-          "title": ""
-        },
-        "event_map_view_state": {
-          "additionalProperties": false,
-          "properties": {
-            "max_zoom": {
-              "default": 20,
-              "title": "Max Zoom",
-              "type": "number"
-            }
-          },
-          "required": [],
-          "type": "object",
           "title": ""
         }
       }
@@ -487,7 +469,7 @@
             "var": {
               "title": "Template File Path",
               "type": "string",
-              "description": "Path to the Word (.docx) report template file."
+              "description": "Path or URL to the Word (.docx) report template file."
             }
           },
           "required": [
@@ -501,14 +483,28 @@
           "properties": {
             "skip_download": {
               "default": false,
+              "description": "Set to true to skip downloading attachments.",
               "title": "Skip Attachments",
-              "type": "boolean",
-              "description": "Set to true to skip downloading attachments."
+              "type": "boolean"
             }
           },
           "required": [],
           "type": "object",
           "title": "Download Attachments"
+        },
+        "generate_docx": {
+          "additionalProperties": false,
+          "properties": {
+            "map_width_mm": {
+              "default": 150,
+              "description": "Width of the event map in the report, in mm.",
+              "title": "Map Width Mm",
+              "type": "integer"
+            }
+          },
+          "required": [],
+          "type": "object",
+          "title": "Generate Event Report"
         }
       }
     }
@@ -613,6 +609,13 @@
           "minLength": 1,
           "title": "Featureset Name",
           "type": "string"
+        },
+        "include_hidden": {
+          "default": false,
+          "description": "Include feature classes an EarthRanger administrator has marked as not visible.",
+          "ecoscope:advanced": true,
+          "title": "Include Hidden",
+          "type": "boolean"
         }
       },
       "required": [
@@ -639,12 +642,65 @@
           "maxItems": 1,
           "title": "Style",
           "type": "array"
+        },
+        "include_hidden": {
+          "default": false,
+          "description": "Include feature classes an EarthRanger administrator has marked as not visible.",
+          "ecoscope:advanced": true,
+          "title": "Include Hidden",
+          "type": "boolean"
         }
       },
       "required": [
         "feature_type"
       ],
       "title": "Feature Type",
+      "type": "object"
+    },
+    "LabelStyle": {
+      "properties": {
+        "size": {
+          "default": 14,
+          "description": "Label text size.",
+          "title": "Size",
+          "type": "number"
+        },
+        "size_units": {
+          "default": "pixels",
+          "description": "Unit for Size, and for the min/max pixel bounds below.",
+          "enum": [
+            "meters",
+            "pixels"
+          ],
+          "title": "Size Units",
+          "type": "string"
+        },
+        "size_min_pixels": {
+          "default": 8,
+          "description": "Label never renders smaller than this many pixels, regardless of zoom.",
+          "title": "Size Min Pixels",
+          "type": "number"
+        },
+        "size_max_pixels": {
+          "default": 28,
+          "description": "Label never renders larger than this many pixels, regardless of zoom.",
+          "title": "Size Max Pixels",
+          "type": "number"
+        },
+        "color": {
+          "default": "#000000",
+          "description": "Label hex colour.",
+          "title": "Color",
+          "type": "string"
+        },
+        "background": {
+          "default": false,
+          "description": "If True, show a solid background box behind each label.",
+          "title": "Background",
+          "type": "boolean"
+        }
+      },
+      "title": "",
       "type": "object"
     },
     "LayerStyle": {
@@ -794,7 +850,9 @@
         "ui:order": [
           "source",
           "group_by",
-          "legend_title"
+          "legend_title",
+          "show_labels",
+          "label_style"
         ],
         "source": {
           "ui:options": {
@@ -839,16 +897,11 @@
         ]
       }
     },
-    "Event Scatterplot Map": {
-      "ui:order": [
-        "event_scatterplot_layer",
-        "event_map_view_state"
-      ]
-    },
     "Report Generation": {
       "ui:order": [
         "get_template_path",
-        "download_attachments"
+        "download_attachments",
+        "generate_docx"
       ]
     },
     "ui:order": [
@@ -858,7 +911,6 @@
       "serial_no",
       "time_range",
       "events",
-      "processed_event_details",
       "Spatial Features",
       "Local Spatial Features",
       "Event Scatterplot Map",

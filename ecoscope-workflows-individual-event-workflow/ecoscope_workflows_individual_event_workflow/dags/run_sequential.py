@@ -13,6 +13,9 @@ from ecoscope.platform.tasks.io import persist_text as persist_text
 from ecoscope.platform.tasks.io import process_events_details as process_events_details
 from ecoscope.platform.tasks.io import set_er_connection as set_er_connection
 from ecoscope.platform.tasks.results import (
+    create_files_single_view as create_files_single_view,
+)
+from ecoscope.platform.tasks.results import (
     create_map_widget_single_view as create_map_widget_single_view,
 )
 from ecoscope.platform.tasks.results import (
@@ -347,6 +350,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         .partial(
             df=get_event,
             client=er_client,
+            map_to_titles=False,
             ordered=True,
             **(params.get("processed_event_details") or {}),
         )
@@ -609,6 +613,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         )
         .partial(
             layers=[event_scatterplot_layer],
+            max_zoom=13,
             **(params.get("event_map_view_state") or {}),
         )
         .call()
@@ -946,10 +951,28 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             user_details=user_details,
             attachments=download_attachments,
             include_attachment=True,
+            timezone=get_timezone,
             template_path=norm_template_path,
             output_dir=norm_output_dir,
             **(params.get("generate_docx") or {}),
         )
+        .call()
+    )
+
+    report_files = (
+        task(create_files_single_view)
+        .validate()
+        .set_task_instance_id("report_files")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+            ],
+            unpack_depth=1,
+        )
+        .partial(files=[generate_docx], **(params.get("report_files") or {}))
         .call()
     )
 
@@ -970,6 +993,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             details=workflow_details,
             widgets=[event_map_widget],
             time_range=time_range,
+            files=report_files,
             **(params.get("dashboard") or {}),
         )
         .call()

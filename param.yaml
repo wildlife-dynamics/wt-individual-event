@@ -15,4 +15,4 @@ time_range:
 serial_no:
   var: "349"
 get_template_path:
-  var: "/Users/zak/Desktop/Reporte de Evento Individual.docx"
+  var: "resources/templates/acta_de_infraccion_template.docx"  # any local path or http(s) URL
