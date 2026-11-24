@@ -469,8 +469,7 @@
             "var": {
               "title": "Template File Path",
               "type": "string",
-              "description": "Path or URL to the Word (.docx) report template file.",
-              "default": "https://raw.githubusercontent.com/wildlife-dynamics/wt-individual-event/main/resources/templates/acta_de_infraccion_template.docx"
+              "description": "Path or URL to the Word (.docx) report template file."
             }
           },
           "required": [

@@ -15,4 +15,4 @@ time_range:
 serial_no:
   var: "349"
 get_template_path:
-  var: "https://raw.githubusercontent.com/wildlife-dynamics/wt-individual-event/main/resources/templates/acta_de_infraccion_template.docx"
+  var: "resources/templates/acta_de_infraccion_template.docx"  # any local path or http(s) URL
